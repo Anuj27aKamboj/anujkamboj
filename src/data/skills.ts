@@ -16,6 +16,7 @@ export const skillsRowBottom: SkillItem[] = [
   { name: 'MongoDB',              iconUrl: '/icons/mongo-db.png',    iconAlt: 'Mongo DB' },
   { name: 'Git',                  iconUrl: '/icons/git.png',         iconAlt: 'Git logo' },
   { name: 'Tailwind CSS',         iconUrl: '/icons/tailwind.png',    iconAlt: 'Tailwind CSS logo' },
+  { name: 'Nginx',                iconUrl: '/icons/nginx.png',    iconAlt: 'Nginx logo' },
 ];
 
 // Icons used in the Hero floating display (subset)

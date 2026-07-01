@@ -8,7 +8,7 @@ export const personal = {
   production-ready React applications. I care deeply about the details that most people 
   skip — keyboard navigation, loading states, motion that doesn't get in the way.`,
   location: 'Delhi, India',
-  resumeUrl: '/resume.pdf',
+  resumeUrl: '/AnujKambojResume.pdf',
   email: 'anujkamboj2000@gmail.com',
 } as const;
 

@@ -196,6 +196,19 @@ export function GooeyNav({
     if (activeLi) {
       updateEffectPosition(activeLi);
       textRef.current?.classList.add("active");
+      // Skip the scale-in animation on initial mount — set pill visible immediately
+      if (filterRef.current) {
+        filterRef.current.classList.add("active");
+        // Force the ::after to its end state without animating
+        const style = document.createElement("style");
+        style.textContent = `.gooey-nav-container .effect.active::after { animation: none; transform: scale(1); opacity: 1; }`;
+        style.id = "gooey-nav-init";
+        document.head.appendChild(style);
+        // Remove the override after a short delay so subsequent clicks animate normally
+        setTimeout(() => {
+          document.getElementById("gooey-nav-init")?.remove();
+        }, 100);
+      }
     }
 
     const ro = new ResizeObserver(() => {

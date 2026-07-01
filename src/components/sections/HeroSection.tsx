@@ -40,8 +40,8 @@ export function HeroSection() {
           density={0.6}
           twinkle={1}
           zoom={1.5}
-          backgroundGlow={isDark ? 0.3 : 0.15}
-          opacity={isDark ? 1 : 0.6}
+          backgroundGlow={isDark ? 0.3 : 0.2}
+          opacity={isDark ? 1 : 0.75}
           mouseInteraction
           mouseStrength={0.6}
           mouseRadius={0.5}
@@ -53,9 +53,9 @@ export function HeroSection() {
         aria-hidden="true"
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: isDark
+         background: isDark
             ? "radial-gradient(ellipse 80% 60% at 50% 50%, transparent 10%, var(--bg) 100%)"
-            : "radial-gradient(ellipse 80% 60% at 50% 50%, transparent 30%, var(--bg) 90%)",
+            : "radial-gradient(ellipse 80% 60% at 50% 50%, transparent 35%, var(--bg) 95%)",
         }}
       />
 
