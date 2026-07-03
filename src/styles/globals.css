@@ -5,6 +5,10 @@
 @import "@fontsource/inter/600.css";
 @import "@fontsource/inter/700.css";
 
+@font-face {
+  font-family: 'Inter';
+  font-display: swap;
+}
 /* ─── Design tokens ─────────────────────────────────────── */
 :root {
   /* Light theme colors */
