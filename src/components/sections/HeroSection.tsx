@@ -31,33 +31,33 @@ export function HeroSection() {
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <Lightfall
           colors={["#ffdb6d", "#F43F5E", "#F97316"]}
-          backgroundColor="#6366F1"
-          speed={0.6}
-          streakCount={2}
+          backgroundColor={isDark ? "#6366F1" : "#FFFFFF"}
+          speed={1}
+          streakCount={4}
           streakWidth={0.8}
           streakLength={0.8}
-          glow={0.7}
+          glow={isDark ? 0.8 : 7}
           density={0.6}
           twinkle={1}
           zoom={1.5}
-          backgroundGlow={isDark ? 0.3 : 0.2}
-          opacity={isDark ? 1 : 0.75}
+          backgroundGlow={isDark ? 0.1 : 3}
+          opacity={1}
           mouseInteraction
           mouseStrength={0.6}
           mouseRadius={0.5}
         />
       </div>
 
-      {/* Radial gradient overlay */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 pointer-events-none"
-        style={{
-         background: isDark
-            ? "radial-gradient(ellipse 80% 60% at 50% 50%, transparent 10%, var(--bg) 100%)"
-            : "radial-gradient(ellipse 80% 60% at 50% 50%, transparent 35%, var(--bg) 95%)",
-        }}
-      />
+      {/* Radial gradient overlay — dark mode only */}
+      {isDark && (
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: "radial-gradient(ellipse 80% 60% at 50% 50%, transparent 10%, var(--bg) 100%)",
+          }}
+        />
+      )}
 
       <div className="container relative z-10 pt-28 pb-20 md:pt-32 md:pb-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">

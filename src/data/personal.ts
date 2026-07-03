@@ -4,10 +4,6 @@ export const personal = {
   name: 'Anuj Kamboj',
   title: 'Frontend Developer',
   tagline: 'I build fast, accessible, and thoughtfully designed web experiences.',
-  bio: `I'm a frontend developer with around two years of experience turning designs into 
-  production-ready React applications. I care deeply about the details that most people 
-  skip — keyboard navigation, loading states, motion that doesn't get in the way.`,
-  location: 'Delhi, India',
   resumeUrl: '/AnujKambojResume.pdf',
   email: 'anujkamboj2000@gmail.com',
 } as const;

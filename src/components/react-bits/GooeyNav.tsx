@@ -6,6 +6,7 @@ import { useTheme } from "@/context/ThemeContext";
 interface GooeyNavProps {
   items: NavItem[];
   activeSection: string;
+  setActiveSection: (id: string) => void;
   animationTime?: number;
   particleCount?: number;
   particleDistances?: [number, number];
@@ -17,6 +18,7 @@ interface GooeyNavProps {
 export function GooeyNav({
   items,
   activeSection,
+  setActiveSection,
   animationTime = 600,
   particleCount = 15,
   particleDistances = [90, 10],
@@ -35,13 +37,8 @@ export function GooeyNav({
     items.findIndex((item) => item.id === activeSection),
   );
   const [internalActive, setInternalActive] = useState(activeIndex);
-  // Suppresses ALL scroll-driven syncs for a fixed window after a manual
-  // click, since IntersectionObserver can fire multiple times during the
-  // multi-hundred-ms smooth-scroll animation, not just once.
-  const suppressUntilRef = useRef(0);
 
   useEffect(() => {
-    if (Date.now() < suppressUntilRef.current) return;
     setInternalActive(activeIndex);
   }, [activeIndex]);
 
@@ -140,7 +137,7 @@ export function GooeyNav({
     e.preventDefault();
     const liEl = e.currentTarget;
 
-    suppressUntilRef.current = Date.now() + 1000;
+    setActiveSection(items[index].id);
     setInternalActive(index);
     updateEffectPosition(liEl);
 
@@ -191,25 +188,26 @@ export function GooeyNav({
 
   useEffect(() => {
     if (!navRef.current || !containerRef.current) return;
-    const lis = navRef.current.querySelectorAll("li");
-    const activeLi = lis[internalActive] as HTMLElement | undefined;
-    if (activeLi) {
-      updateEffectPosition(activeLi);
-      textRef.current?.classList.add("active");
-      // Skip the scale-in animation on initial mount — set pill visible immediately
-      if (filterRef.current) {
-        filterRef.current.classList.add("active");
-        // Force the ::after to its end state without animating
-        const style = document.createElement("style");
-        style.textContent = `.gooey-nav-container .effect.active::after { animation: none; transform: scale(1); opacity: 1; }`;
-        style.id = "gooey-nav-init";
-        document.head.appendChild(style);
-        // Remove the override after a short delay so subsequent clicks animate normally
-        setTimeout(() => {
-          document.getElementById("gooey-nav-init")?.remove();
-        }, 100);
+
+    requestAnimationFrame(() => {
+      if (!navRef.current) return;
+      const lis = navRef.current.querySelectorAll("li");
+      const activeLi = lis[internalActive] as HTMLElement | undefined;
+      if (activeLi) {
+        updateEffectPosition(activeLi);
+        textRef.current?.classList.add("active");
+        if (filterRef.current) {
+          filterRef.current.classList.add("active");
+          const style = document.createElement("style");
+          style.textContent = `.gooey-nav-container .effect.active::after { animation: none; transform: scale(1); opacity: 1; }`;
+          style.id = "gooey-nav-init";
+          document.head.appendChild(style);
+          setTimeout(() => {
+            document.getElementById("gooey-nav-init")?.remove();
+          }, 100);
+        }
       }
-    }
+    });
 
     const ro = new ResizeObserver(() => {
       const currentLi = navRef.current?.querySelectorAll("li")[
@@ -223,7 +221,7 @@ export function GooeyNav({
 
   return (
     <div
-      className="gooey-nav-container hidden md:block"
+      className="gooey-nav-container hidden lg:block"
       ref={containerRef}
       style={
         {

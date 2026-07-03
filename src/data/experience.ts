@@ -18,7 +18,7 @@ export const experience: ExperienceItem[] = [
   {
     id: 'exp-2',
     role: 'Associate Software Engineer',
-    company: 'Deloitte LLP',
+    company: 'Deloitte US India Consulting Pvt. Ltd.',
     companyUrl: 'https://www.deloitte.com/in/en.html',
     startDate: 'Apr 2025',
     endDate: 'Nov 2025',

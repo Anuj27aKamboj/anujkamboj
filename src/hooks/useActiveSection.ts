@@ -1,43 +1,46 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-/**
- * Tracks which section is currently in the viewport using a single
- * IntersectionObserver instance. Returns the id of the active section.
- */
-export function useActiveSection(sectionIds: string[]): string {
+export function useActiveSection(
+  sectionIds: string[]
+): [string, (id: string) => void] {
   const [activeSection, setActiveSection] = useState<string>(sectionIds[0] ?? '');
+  const isManualRef = useRef(false);
+
+  const setManualActive = (id: string) => {
+    isManualRef.current = true;
+    setActiveSection(id);
+  };
 
   useEffect(() => {
     if (sectionIds.length === 0) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        // Find the entry with the largest intersection ratio that is intersecting
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-
-        if (visible.length > 0 && visible[0].target.id) {
-          setActiveSection(visible[0].target.id);
-        }
-      },
-      {
-        rootMargin: '-20% 0px -60% 0px',
-        threshold: [0, 0.25, 0.5, 0.75, 1],
+    const getActive = () => {
+      if (isManualRef.current) return;
+      const scrollY = window.scrollY + window.innerHeight * 0.3;
+      let current = sectionIds[0];
+      for (const id of sectionIds) {
+        const el = document.getElementById(id);
+        if (el && el.offsetTop <= scrollY) current = id;
       }
-    );
+      setActiveSection(current);
+    };
 
-    const elements = sectionIds
-      .map((id) => document.getElementById(id))
-      .filter(Boolean) as HTMLElement[];
+    let timer: ReturnType<typeof setTimeout>;
+    const onScroll = () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        isManualRef.current = false;
+        getActive();
+      }, 800);
+    };
 
-    elements.forEach((el) => observer.observe(el));
-
+    getActive();
+    window.addEventListener('scroll', onScroll, { passive: true });
     return () => {
-      elements.forEach((el) => observer.unobserve(el));
-      observer.disconnect();
+      window.removeEventListener('scroll', onScroll);
+      clearTimeout(timer);
     };
   }, [sectionIds]);
 
-  return activeSection;
+  return [activeSection, setManualActive];
 }

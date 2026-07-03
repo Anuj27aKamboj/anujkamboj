@@ -11,7 +11,7 @@ const SECTION_IDS = navItems.map((item) => item.id);
 export function Navbar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const activeSection = useActiveSection(SECTION_IDS);
+  const [activeSection, setActiveSection] = useActiveSection(SECTION_IDS);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 12);
@@ -30,11 +30,14 @@ export function Navbar() {
         }}
       >
         <div className="container flex items-center justify-between">
-          {/* Logo */}
           <a
             href="#"
             aria-label="Back to top"
-            onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+            onClick={(e) => {
+              e.preventDefault();
+              setActiveSection(SECTION_IDS[0]);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
             className="flex items-center gap-2 group"
           >
             <span
@@ -52,12 +55,14 @@ export function Navbar() {
             </span>
           </a>
 
-          {/* Desktop — real GooeyNav */}
-          <GooeyNav items={navItems} activeSection={activeSection} />
+          <GooeyNav
+            items={navItems}
+            activeSection={activeSection}
+            setActiveSection={setActiveSection}
+          />
 
-          {/* Mobile hamburger */}
           <button
-            className="md:hidden p-2 rounded-[var(--radius-md)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-elevated)] transition-colors"
+            className="lg:hidden p-2 rounded-[var(--radius-md)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-elevated)] transition-colors"
             aria-label="Open navigation menu"
             aria-expanded={drawerOpen}
             onClick={() => setDrawerOpen(true)}
@@ -72,6 +77,7 @@ export function Navbar() {
         onClose={() => setDrawerOpen(false)}
         items={navItems}
         activeSection={activeSection}
+        setActiveSection={setActiveSection}
       />
     </>
   );

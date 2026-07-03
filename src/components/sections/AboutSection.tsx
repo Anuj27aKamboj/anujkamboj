@@ -36,7 +36,7 @@ export function AboutSection() {
               style={{ fontSize: 'var(--text-base)', lineHeight: '1.8' }}
               className="text-[var(--text-secondary)]"
             >
-              Frontend developer based in Delhi with 2.5 years of experience building React applications — from internal dashboards to consumer-facing products. I focus on fast initial loads, accessible interactions, and code that the next developer can understand without a walkthrough.
+              Frontend developer based in Gurugranm with 2.5 years of experience building React applications — from internal dashboards to consumer-facing products. I focus on fast initial loads, accessible interactions, and code that the next developer can understand without a walkthrough.
             </p>
             <p
               style={{ fontSize: 'var(--text-base)', lineHeight: '1.8', marginTop: '1rem' }}
